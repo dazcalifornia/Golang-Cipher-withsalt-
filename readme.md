@@ -90,6 +90,7 @@ os: Offers a way to interact with the operating system.
 strings: Provides string manipulation functions.
 
 Main Function:
+
 ```go
 func main() {
 key := "supersecretkey" // replace this with a secure key in a real-world scenario
@@ -100,6 +101,7 @@ Defines the key used for encryption and decryption.
     scanner := bufio.NewScanner(os.Stdin)
     scanner.Scan()
     plaintext := scanner.Text()
+```
 
 Prompts the user to enter a message, reads it from the console, and stores it in the plaintext variable.
 
