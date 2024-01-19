@@ -105,41 +105,52 @@ Defines the key used for encryption and decryption.
 
 Prompts the user to enter a message, reads it from the console, and stores it in the plaintext variable.
 
+    ```go
     salt := generateSalt()
+    ```
 
 Calls the generateSalt function to create a random salt.
 
+```go
     paddedKey := padKey([]byte(key))
+```
 
 Calls the padKey function to ensure the key is exactly 32 bytes.
 
+```go
     encryptedMessage, err := encrypt([]byte(plaintext), paddedKey, salt)
     if err != nil {
     fmt.Println("Encryption error:", err)
     return
     }
+```
 
 Calls the encrypt function to encrypt the user's message and handles any encryption errors.
 
+```go
     fmt.Println("Encrypted message:", base64.StdEncoding.EncodeToString(encryptedMessage))
+```
 
 Prints the encrypted message in base64 encoding.
 
+```go
     decryptedMessage, err := decrypt(encryptedMessage, paddedKey, salt)
     if err != nil {
     fmt.Println("Decryption error:", err)
     return
     }
+```
 
 Calls the decrypt function to decrypt the message and handles any decryption errors.
 
-`    fmt.Println("Decrypted message:", string(decryptedMessage))`
+`go   fmt.Println("Decrypted message:", string(decryptedMessage))`
 Prints the decrypted message.
 
 Helper Functions:
 
 generateSalt:
 
+```go
     func generateSalt() []byte {
     salt := make([]byte, 16)
     if \_, err := io.ReadFull(rand.Reader, salt); err != nil {
@@ -147,10 +158,12 @@ generateSalt:
     }
     return salt
     }
+```
 
 Generates a random 16-byte salt using crypto/rand.
 padKey:
 
+```go
     func padKey(key []byte) []byte {
     desiredKeyLen := 32
     keyLen := len(key)
@@ -165,11 +178,13 @@ padKey:
         return paddedKey
 
     }
+```
 
 Pads or truncates the key to ensure it is exactly 32 bytes.
 
 encrypt:
 
+```go
     func encrypt(plaintext []byte, key []byte, salt []byte) ([]byte, error) {
     block, err := aes.NewCipher(key)
     if err != nil {
@@ -188,10 +203,12 @@ encrypt:
         return ciphertext, nil
 
     }
+```
 
 Encrypts the plaintext using AES in CFB mode.
 decrypt:
 
+```go
     func decrypt(ciphertext []byte, key []byte, salt []byte) ([]byte, error) {
     block, err := aes.NewCipher(key)
     if err != nil {
@@ -210,6 +227,7 @@ decrypt:
         return ciphertext, nil
 
     }
+```
 
 Decrypts the ciphertext using AES in CFB mode.
 This program demonstrates a simple encryption and decryption process using the AES cipher with manual key management. Keep in mind that manual cryptography implementation can be error-prone and is not recommended for production use. For real-world scenarios, it's advised to use well-established cryptographic libraries.
