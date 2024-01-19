@@ -1,0 +1,59 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket Client</title>
+  </head>
+  <body>
+    <input type="text" id="messageInput" placeholder="Enter message" />
+    <button onclick="connectWebSocket()">Connect WebSocket</button>
+    <button onclick="sendMessage()">Send Message</button>
+    <div id="output"></div>
+
+    <script>
+      let socket;
+
+      function connectWebSocket() {
+        const messageInput = document.getElementById("messageInput");
+        const outputDiv = document.getElementById("output");
+
+        // Close existing connection if any
+        if (socket) {
+          socket.close();
+        }
+
+        // Create a WebSocket connection
+        socket = new WebSocket("ws://localhost:8080/ws");
+
+        // Handle connection open
+        socket.onopen = function (event) {
+          console.log("WebSocket connection opened:", event);
+        };
+
+        // Handle incoming messages
+        socket.onmessage = function (event) {
+          outputDiv.innerHTML += event.data + "<br>";
+        };
+
+        // Handle connection close
+        socket.onclose = function (event) {
+          console.log("WebSocket connection closed:", event);
+          // You can add additional logic here if needed
+        };
+      }
+
+      function sendMessage() {
+        const messageInput = document.getElementById("messageInput");
+        const message = messageInput.value;
+
+        // Send the message to the server
+        socket.send(message);
+
+        // Clear the input field
+        messageInput.value = "";
+      }
+    </script>
+  </body>
+</html>
